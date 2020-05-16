@@ -1,0 +1,3 @@
+# ignore all zip and image files
+*.zip
+*.img
