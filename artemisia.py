@@ -67,14 +67,17 @@ class DisplayPanel(wx.Panel):
 
     def checkFolder(self):
         files = os.listdir(IMAGES_FOLDER) # Grab the names of all the files in the images folder
-        if (len(files) == 0):             # If their aren't any files
+        fileCount = len(files)
+        if (fileCount == 0):              # If their aren't any files
+            self.emptyFolder = True       # flag the folder is empty
             self.images.clear()           # empty the images list
             file = MESSAGES_FOLDER + "Empty Folder.png" #
             image = wx.Image(file, wx.BITMAP_TYPE_ANY)  # Remind the user
             self.addImage(file, image)                  #
 
-        elif (len(files) != len(self.images)): # If the number of files in the folder doesn't match our list,
-            self.images.clear()                # time to update our list
+        elif (fileCount != len(self.images) or self.emptyFolder): # If the number of files in the folder doesn't match our list,
+            self.emptyFolder = False                              # flag the folder as populated
+            self.images.clear()                                   # clear list for updating
             for file in files:
                 self.addImage(file, wx.Image(IMAGES_FOLDER + file, wx.BITMAP_TYPE_ANY))
 
